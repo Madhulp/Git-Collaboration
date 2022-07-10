@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+
+    <style>
+        h2 {
+            text-align: center;
+        }
+
+        input {
+            padding: 10px;
+            /* border-radius: 5px; */
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 350px;
+            margin: auto;
+            padding: 40px;
+            font-family: sans-serif;
+            background-image: linear-gradient(to top, #0e8080 0%, #42117e 100%);
+
+        }
+
+        #discri {
+            color: rgb(186, 179, 179);
+            padding-top: 20px;
+            font-size: 8px;
+        }
+
+        button {
+            margin-top: 40px;
+            padding: 12px;
+            margin-bottom: 15px;
+            color: gray;
+            font-size: 18px;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        #togglePassword {
+            cursor: pointer;
+        }
+
+        #comment {
+            text-align: center;
+            color: black;
+            margin-top: 15px;
+            margin-bottom: -15px;
+            cursor: pointer;
+            row-gap: 25px;
+        }
+
+        hr {
+            width: 100%;
+        }
+
+        #href {
+            color: black;
+            text-align: center;
+            row-gap: 20px;
+        }
+
+        #signIn:hover {
+            background-color: #4b5666;
+            color: white;
+        }
+
+        button:hover {
+            background-color: #4b5666;
+        }
+
+        #href:hover {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <h2>Login</h2>
+        <hr />
+
+
+        <p>Email</p>
+        <input id="email" type="text" />
+        <p>Password*</p>
+        <input type="password" autocomplete="current-password" required="" id="password" />
+        <button id="signIn">Login</button>
+        <hr />
+        <!-- <h2>Login</h2> -->
+        <p id="comment">forgot password?</p>
+        <p id="href">Don't have an account?Signup</P>
+    </form>
+    <!-- <div id="signIn">Already have an account? <a href="">Sign in</a></div> -->
+</body>
+
+</html>
+
+<script>
+    let form = document.querySelector("form");
+
+    let userData = JSON.parse(localStorage.getItem("userData")) || [];
+
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        let data = {
+            email: form.email.value,
+            password: form.password.value,
+        };
+
+        let count = 0;
+        if (checkSignin(data.email, data.password) === true) {
+            count++;
+        }
+
+        if (count >= 1) {
+            localStorage.setItem("signin", JSON.stringify(data));
+            alert("Sign in Successful");
+            window.location.href = "navbar.html";
+        } else {
+            alert("wrong Username or password")
+        }
+    });
+    function checkSignin(email, password) {
+        let filter = userData.filter(function (element) {
+            return element.email === email && element.password === password;
+        });
+        if (filter.length > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
